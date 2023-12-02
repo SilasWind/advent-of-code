@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { TextField, Button } from "@mui/material";
+import { TextField, Button, Checkbox, FormControlLabel } from "@mui/material";
 
 function DayOne() {
   const [inputString, setInputString] = useState("");
   const [output, setOutput] = useState(0);
+  const [ignoreWords, setIgnoreWords] = useState(true);
 
   const numbers = [
     "zero",
@@ -29,8 +30,8 @@ function DayOne() {
     let output = 0;
     inputArray.forEach((el) => {
       const reversedString = el.split("").reverse().join("");
-      let firstNumber = 100;
-      let lastNumber = -100;
+      let firstNumber = "";
+      let lastNumber = "";
       let firstDigitIndex = el.search(/\d/);
       let firstDigit = el[firstDigitIndex];
       let lastDigitIndex =
@@ -42,38 +43,52 @@ function DayOne() {
       let lowestWordFound = "";
       let highestWordFoundIndex = -100;
       let highestWordFound = "";
-      numbers.forEach((number) => {
-        const index = el.indexOf(number);
-        const lastIndex = el.lastIndexOf(number);
-        if (index !== -1) {
-          if (index < lowestWordFoundIndex) {
-            lowestWordFoundIndex = index;
-            lowestWordFound = number;
+      if (!ignoreWords) {
+        numbers.forEach((number) => {
+          const index = el.indexOf(number);
+          const lastIndex = el.lastIndexOf(number);
+          if (index !== -1) {
+            if (index < lowestWordFoundIndex) {
+              lowestWordFoundIndex = index;
+              lowestWordFound = number;
+            }
+            if (lastIndex > highestWordFoundIndex) {
+              highestWordFoundIndex = lastIndex;
+              highestWordFound = number;
+            }
           }
-          if (lastIndex > highestWordFoundIndex) {
-            highestWordFoundIndex = lastIndex;
-            highestWordFound = number;
-          }
-        }
-      });
-      if (firstDigitIndex !== -1 && firstDigitIndex < lowestWordFoundIndex) {
-        firstNumber = parseInt(firstDigit);
-      } else {
-        firstNumber = numbers.indexOf(lowestWordFound);
+        });
       }
-      if (lastDigitIndex > highestWordFoundIndex) {
-        lastNumber = parseInt(lastDigit);
+      if (
+        ignoreWords ||
+        (firstDigitIndex !== -1 && firstDigitIndex < lowestWordFoundIndex)
+      ) {
+        firstNumber = ignoreWords && firstDigitIndex === -1 ? "0" : firstDigit;
       } else {
-        lastNumber = numbers.indexOf(highestWordFound);
+        firstNumber = numbers.indexOf(lowestWordFound).toString();
       }
-      output =
-        output + parseInt(firstNumber.toString() + lastNumber.toString());
+      if (ignoreWords || lastDigitIndex > highestWordFoundIndex) {
+        lastNumber = ignoreWords && lastDigitIndex === -1 ? "0" : lastDigit;
+      } else {
+        lastNumber = numbers.indexOf(highestWordFound).toString();
+      }
+      console.log(parseInt(firstNumber + lastNumber));
+      output = output + parseInt(firstNumber + lastNumber);
     });
     setOutput(output);
   };
   return (
     <div>
       <h3>Day 1</h3>
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={ignoreWords}
+            onChange={() => setIgnoreWords(!ignoreWords)}
+          />
+        }
+        label="Ignore written out numbers"
+      />
       <TextField
         multiline
         rows={4}
@@ -82,7 +97,7 @@ function DayOne() {
         sx={{ width: "90vw" }}
       />
       <Button onClick={convertInput} variant="contained">
-        Convert
+        Do the thing
       </Button>
       <h4 style={{ marginTop: 5 }}>Sum of all numbers: {output}</h4>
     </div>
