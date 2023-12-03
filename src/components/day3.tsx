@@ -74,8 +74,9 @@ function DayThree() {
 
   const partTwo = () => {
     const inputArray = inputString.split(/\r?\n/);
-    let foundNumbers: number[] = [];
+    let newOutput = 0;
     inputArray.forEach((el, index) => {
+      let foundNumberArray: number[] = [];
       const gearIndices = [...el.matchAll(new RegExp(/\*/, "g"))].map(
         (num) => num.index ?? -1
       );
@@ -118,7 +119,7 @@ function DayThree() {
         }
       });
       gearIndices.forEach((gearIndex) => {
-        let foundIndices: { [key: string]: number[] } = {
+        let foundNumbers: { [key: string]: number[] } = {
           top: [],
           current: [],
           bottom: [],
@@ -126,24 +127,44 @@ function DayThree() {
         ["top", "current", "bottom"].forEach((line) => {
           numberGroups[line].forEach((number) => {
             if (
-              !foundIndices[line].includes(number[0]) &&
-              (gearIndex === number[0] - 1 ||
-                gearIndex === number[number.length - 1] + 1 ||
-                number.includes(gearIndex))
+              gearIndex === number[0] - 1 ||
+              gearIndex === number[number.length - 1] + 1 ||
+              number.includes(gearIndex)
             ) {
               let digitArray: number[] = [];
               number.forEach((numberIndex) => {
-                digitArray.push(parseInt(el[numberIndex]));
-                foundIndices[line].push(numberIndex);
+                digitArray.push(
+                  parseInt(
+                    inputArray[
+                      line === "top"
+                        ? index - 1
+                        : line === "current"
+                        ? index
+                        : index + 1
+                    ][numberIndex]
+                  )
+                );
               });
-              foundNumbers.push(parseInt(digitArray.join("")));
+              foundNumbers[line].push(parseInt(digitArray.join("")));
             }
           });
         });
-        console.log(el);
-        console.log(foundIndices);
+        if (
+          foundNumbers.top.length +
+            foundNumbers.current.length +
+            foundNumbers.bottom.length ===
+          2
+        ) {
+          ["top", "current", "bottom"].forEach((line) => {
+            if (foundNumberArray.length < 2) {
+              foundNumbers[line].map((number) => foundNumberArray.push(number));
+            }
+          });
+          newOutput = newOutput + foundNumberArray[0] * foundNumberArray[1];
+        }
       });
     });
+    setOutput(newOutput);
   };
   return (
     <Box
@@ -174,7 +195,7 @@ function DayThree() {
       </Button>
 
       {part2 ? (
-        <h4>Sum of all powers: {output}</h4>
+        <h4>Sum of all powers: {output}, previous: 70879553</h4>
       ) : (
         <Box>
           <h4 style={{ marginTop: 5 }}>Sum of all part numbers: {output}</h4>
