@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { TextField, Button, Checkbox, FormControlLabel } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  Box,
+} from "@mui/material";
 
 function DayOne() {
   const [inputString, setInputString] = useState("");
@@ -78,7 +84,13 @@ function DayOne() {
     setOutput(output);
   };
   return (
-    <div>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
       <h3>Day 1</h3>
       <FormControlLabel
         control={
@@ -89,6 +101,7 @@ function DayOne() {
         }
         label="Ignore written out numbers"
       />
+
       <TextField
         multiline
         rows={4}
@@ -96,11 +109,16 @@ function DayOne() {
         onChange={(e) => handleChange(e)}
         sx={{ width: "90vw" }}
       />
-      <Button onClick={convertInput} variant="contained">
+      <Button
+        onClick={convertInput}
+        variant="contained"
+        sx={{ width: "15%", margin: 1 }}
+      >
         Do the thing
       </Button>
+
       <h4 style={{ marginTop: 5 }}>Sum of all numbers: {output}</h4>
-    </div>
+    </Box>
   );
 }
 

@@ -1,15 +1,20 @@
+import { Button, ButtonGroup, Typography } from "@mui/material";
 import React from "react";
-import { Link } from "react-router-dom";
 
 const MainMenu: React.FC = () => {
   return (
-    <div>
-      <h1>Main Menu</h1>
-      <ul>
-        <li>
-          <Link to="/day1">Day 1</Link>
-        </li>
-      </ul>
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        flexDirection: "column",
+      }}
+    >
+      <Typography variant="h2">Main Menu</Typography>
+      <ButtonGroup orientation="vertical" variant="text" size="large">
+        <Button href="/day1">Day 1</Button>
+        <Button href="/day2">Day 2</Button>
+      </ButtonGroup>
     </div>
   );
 };
