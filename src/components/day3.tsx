@@ -84,38 +84,65 @@ function DayThree() {
           (num) => num.index ?? -1
         );
       };
-      let topNumberGroups: number[][] = [[]];
-      let sameNumberGroups: number[][] = [[]];
-      let bottomNumberGroups: number[][] = [[]];
+      let numberGroups: { [key: string]: number[][] } = {
+        top: [[]],
+        current: [[]],
+        bottom: [[]],
+      };
       [index - 1, index, index + 1].forEach((searchIndex) => {
         if (searchIndex >= 0 && searchIndex <= inputArray.length - 1) {
           numberIndices(searchIndex).forEach(
             (numberIndex, numberIndexIndex) => {
-              let numberIndexGroups =
+              const groupIndex =
                 searchIndex === index - 1
-                  ? topNumberGroups
+                  ? "top"
                   : searchIndex === index
-                  ? sameNumberGroups
-                  : bottomNumberGroups;
+                  ? "current"
+                  : "bottom";
               if (numberIndexIndex === 0) {
-                numberIndexGroups = [[numberIndex]];
+                numberGroups[groupIndex] = [[numberIndex]];
               } else {
                 if (
                   numberIndex ===
                   numberIndices(searchIndex)[numberIndexIndex - 1] + 1
                 ) {
-                  numberIndexGroups[numberIndexGroups.length - 1].push(
-                    numberIndex ?? -1
-                  );
+                  numberGroups[groupIndex][
+                    numberGroups[groupIndex].length - 1
+                  ].push(numberIndex ?? -1);
                 } else {
-                  numberIndexGroups.push([numberIndex]);
+                  numberGroups[groupIndex].push([numberIndex]);
                 }
               }
             }
           );
         }
       });
-      console.log(sameNumberGroups);
+      gearIndices.forEach((gearIndex) => {
+        let foundIndices: { [key: string]: number[] } = {
+          top: [],
+          current: [],
+          bottom: [],
+        };
+        ["top", "current", "bottom"].forEach((line) => {
+          numberGroups[line].forEach((number) => {
+            if (
+              !foundIndices[line].includes(number[0]) &&
+              (gearIndex === number[0] - 1 ||
+                gearIndex === number[number.length - 1] + 1 ||
+                number.includes(gearIndex))
+            ) {
+              let digitArray: number[] = [];
+              number.forEach((numberIndex) => {
+                digitArray.push(parseInt(el[numberIndex]));
+                foundIndices[line].push(numberIndex);
+              });
+              foundNumbers.push(parseInt(digitArray.join("")));
+            }
+          });
+        });
+        console.log(el);
+        console.log(foundIndices);
+      });
     });
   };
   return (
