@@ -14,6 +14,7 @@ const MainMenu: React.FC = () => {
       <ButtonGroup orientation="vertical" variant="text" size="large">
         <Button href="/day1">Day 1</Button>
         <Button href="/day2">Day 2</Button>
+        <Button href="/day3">Day 3</Button>
       </ButtonGroup>
     </div>
   );
