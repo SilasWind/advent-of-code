@@ -20,6 +20,10 @@ function DayFour() {
 
   const doTheThing = () => {
     const inputArray = inputString.split(/\r?\n/);
+    inputArray.forEach((el) => {
+      const match = el.match(/(?:Card \d+:)? ([\d\s]+)(?:\||$)/g) ?? [];
+      // const ownNumbers = match[0].split(" ") ?? []
+    });
   };
   return (
     <Box
