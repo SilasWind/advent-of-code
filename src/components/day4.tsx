@@ -20,10 +20,56 @@ function DayFour() {
 
   const doTheThing = () => {
     const inputArray = inputString.split(/\r?\n/);
-    inputArray.forEach((el) => {
-      const match = el.match(/(?:Card \d+:)? ([\d\s]+)(?:\||$)/g) ?? [];
-      // const ownNumbers = match[0].split(" ") ?? []
+    let newOutput = 0;
+    let cardCopies = new Array(inputArray.length).fill(1);
+    let totalCards = inputArray.length;
+    inputArray.forEach((el, index) => {
+      const match =
+        el.match(/Card\s+\d+:\s+(\d+(?:\s+\d+)*)\s+\|\s+(\d+(?:\s+\d+)*)/) ??
+        [];
+      const ownNumbers = match[1]
+        ?.split(" ")
+        .filter((number) => number)
+        .map((ownNumber) => {
+          return ownNumber.trim();
+        });
+      const winningNumbers = match[2]
+        ?.split(" ")
+        .filter((number) => number)
+        .map((ownNumber) => {
+          return ownNumber.trim();
+        });
+      let score = 0;
+      if (part2) {
+        do {
+          let currentIndex = index + 1;
+          winningNumbers.forEach((winningNumber) => {
+            ownNumbers.forEach((ownNumber) => {
+              if (winningNumber === ownNumber) {
+                cardCopies[currentIndex]++;
+                currentIndex++;
+                totalCards++;
+              }
+            });
+          });
+          if (cardCopies[index]) cardCopies[index]--;
+        } while (cardCopies[index]);
+      } else {
+        winningNumbers.forEach((winningNumber) => {
+          ownNumbers.forEach((ownNumber) => {
+            if (winningNumber === ownNumber) {
+              if (score === 0) {
+                score = 1;
+              } else {
+                score = score * 2;
+              }
+            }
+          });
+        });
+        newOutput = newOutput + score;
+      }
     });
+    setOutput(part2 ? totalCards : newOutput);
   };
   return (
     <Box
@@ -58,7 +104,7 @@ function DayFour() {
       ) : (
         <Box>
           <h4 style={{ marginTop: 5 }}>
-            {part2 ? "Output" : "Output"}: {output}
+            {part2 ? "Output" : "Total Score"}: {output}
           </h4>
         </Box>
       )}
