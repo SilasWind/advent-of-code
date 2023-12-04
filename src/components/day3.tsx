@@ -66,17 +66,15 @@ function DayThree() {
           });
         }
       });
-      console.log(addedIndices);
     });
-    console.log(foundNumbers);
     setOutput(foundNumbers.reduce((acc, curr) => acc + curr, 0));
   };
 
   const partTwo = () => {
     const inputArray = inputString.split(/\r?\n/);
     let newOutput = 0;
+    let totalNumbers: number[] = [];
     inputArray.forEach((el, index) => {
-      let foundNumberArray: number[] = [];
       const gearIndices = [...el.matchAll(new RegExp(/\*/, "g"))].map(
         (num) => num.index ?? -1
       );
@@ -119,6 +117,7 @@ function DayThree() {
         }
       });
       gearIndices.forEach((gearIndex) => {
+        let foundNumberArray: number[] = [];
         let foundNumbers: { [key: string]: number[] } = {
           top: [],
           current: [],
@@ -160,12 +159,14 @@ function DayThree() {
               foundNumbers[line].map((number) => foundNumberArray.push(number));
             }
           });
+          totalNumbers.push(foundNumberArray[0] * foundNumberArray[1]);
           newOutput = newOutput + foundNumberArray[0] * foundNumberArray[1];
         }
       });
     });
     setOutput(newOutput);
   };
+
   return (
     <Box
       sx={{
