@@ -7,6 +7,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import DayOne from "./components/day1";
 import DayTwo from "./components/day2";
 import DayThree from "./components/day3";
+import DayFour from "./components/day4";
 
 const darkTheme = createTheme({
   palette: {
@@ -31,6 +32,7 @@ function App() {
           <Route path="/day1" element={<DayOne />} />
           <Route path="/day2" element={<DayTwo />} />
           <Route path="/day3" element={<DayThree />} />
+          <Route path="/day4" element={<DayFour />} />
         </Routes>
       </div>
     </ThemeProvider>
