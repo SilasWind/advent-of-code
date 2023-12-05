@@ -32,30 +32,36 @@ function DayFive() {
       .map((seed) => {
         return parseInt(seed);
       });
-    let lowestSeed = seeds[0];
-    let highestSeed = seeds[1];
+    let locations: number[] = [];
     seeds.forEach((seed) => {
-      console.log("checking seed " + seed);
-      if (seed < lowestSeed) {
-        lowestSeed = seed;
+      let newSeed = seed;
+      for (let i = 0; i < 7; i++) {
+        let changed = false;
+        extractArray(i, match).forEach((conversion, index) => {
+          if (
+            newSeed <= conversion[1] + conversion[2] - 1 &&
+            newSeed >= conversion[1] &&
+            !changed
+          ) {
+            console.log(
+              `changed ${newSeed} to ${
+                conversion[0] + newSeed - conversion[1]
+              } in step ${i} conversion ${index}`
+            );
+            newSeed = conversion[0] + newSeed - conversion[1];
+            changed = true;
+          }
+        });
       }
-      if (seed > highestSeed) {
-        highestSeed = seed;
+      locations.push(newSeed);
+    });
+    let smallestLocation = locations[0];
+    locations.forEach((location) => {
+      if (location < smallestLocation) {
+        smallestLocation = location;
       }
     });
-    let exchangeArr: number[] = [...Array(highestSeed).keys()];
-    let prevExchangeArr: number[] = [...exchangeArr];
-    for (let j = 0; j < 7; j++) {
-      extractArray(j, match).forEach((exchange) => {
-        for (let i = 0; i < exchange[2]; i++) {
-          console.log(`${j}/6 | ${i}/${exchange[2] - 1}`);
-          exchangeArr[prevExchangeArr.indexOf(exchange[1] + i)] =
-            exchange[0] + i;
-        }
-      });
-      prevExchangeArr = [...exchangeArr];
-    }
-    setOutput(exchangeArr[lowestSeed]);
+    setOutput(smallestLocation);
   };
   return (
     <Box
