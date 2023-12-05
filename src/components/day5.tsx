@@ -26,12 +26,23 @@ function DayFive() {
   const doTheThing = () => {
     const seedsRegex = inputString.match(/seeds:\s*([\d\s]+)/) ?? [];
     const match = inputString.match(/(?<=^|\n)[\d\s]+$/gm) ?? [];
-    const seeds = seedsRegex[1]
+    let seeds = seedsRegex[1]
       .replaceAll("\n", "")
       .split(" ")
       .map((seed) => {
         return parseInt(seed);
       });
+    if (part2) {
+      let newSeeds = [...seeds];
+      seeds = [];
+      newSeeds.forEach((seed, index) => {
+        if (index % 2 === 0) {
+          for (let i = 0; i < newSeeds[index + 1]; i++) {
+            seeds.push(newSeeds[index] + i);
+          }
+        }
+      });
+    }
     let locations: number[] = [];
     seeds.forEach((seed) => {
       let newSeed = seed;
@@ -43,11 +54,11 @@ function DayFive() {
             newSeed >= conversion[1] &&
             !changed
           ) {
-            console.log(
-              `changed ${newSeed} to ${
-                conversion[0] + newSeed - conversion[1]
-              } in step ${i} conversion ${index}`
-            );
+            // console.log(
+            //   `changed ${newSeed} to ${
+            //     conversion[0] + newSeed - conversion[1]
+            //   } in step ${i} conversion ${index}`
+            // );
             newSeed = conversion[0] + newSeed - conversion[1];
             changed = true;
           }
