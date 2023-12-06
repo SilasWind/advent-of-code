@@ -24,13 +24,15 @@ function DaySix() {
     const times = match[1]
       ?.split(" ")
       .filter((time) => time)
-      .map((time) => time.trim());
+      .map((time) => parseInt(time.trim()));
     const distances = match[2]
       ?.split(" ")
       .filter((distance) => distance)
-      .map((distance) => distance.trim());
-    console.log(times);
-    console.log(distances);
+      .map((distance) => parseInt(distance.trim()));
+    let foundDistances: number[] = new Array(distances.length);
+    times.forEach((time, index) => {
+      for (let i = 0; i <= time; i++) {}
+    });
   };
   return (
     <Box
