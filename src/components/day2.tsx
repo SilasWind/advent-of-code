@@ -1,16 +1,9 @@
 import React, { useState } from "react";
-import {
-  TextField,
-  Button,
-  Checkbox,
-  FormControlLabel,
-  Box,
-} from "@mui/material";
+import InputComp from "./inputComp";
 
 function DayTwo() {
   const [part2, setPart2] = useState(false);
   const [inputString, setInputString] = useState("");
-  const [possibleGames, setPossibleGames] = useState<number[]>([]);
   const [output, setOutput] = useState(0);
 
   const handleChange = (
@@ -43,7 +36,6 @@ function DayTwo() {
       }
       if (possible) newPossibleGames.push(index + 1);
     });
-    setPossibleGames([...newPossibleGames]);
     setOutput(
       newPossibleGames.reduce((acc, curr) => {
         return acc + curr;
@@ -88,44 +80,16 @@ function DayTwo() {
   };
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      }}
-    >
-      <h3>Day 2</h3>
-      <FormControlLabel
-        control={<Checkbox checked={part2} onChange={() => setPart2(!part2)} />}
-        label="Part 2"
-      />
-      <TextField
-        multiline
-        rows={4}
-        value={inputString}
-        onChange={(e) => handleChange(e)}
-        sx={{ width: "90vw" }}
-      />
-      <Button
-        onClick={part2 ? partTwo : partOne}
-        variant="contained"
-        sx={{ width: "15%", margin: 1 }}
-      >
-        Do the thing
-      </Button>
-
-      {part2 ? (
-        <h4>Sum of all powers: {output}</h4>
-      ) : (
-        <Box>
-          <h4 style={{ marginTop: 5 }}>
-            Possible Games: {possibleGames.join(", ")}
-          </h4>
-          <h4 style={{ marginTop: 5 }}>Sum of all possible IDs: {output}</h4>
-        </Box>
-      )}
-    </Box>
+    <InputComp
+      part2={part2}
+      setPart2={setPart2}
+      inputString={inputString}
+      output={output}
+      part1Func={partOne}
+      part2Func={partTwo}
+      handleChange={handleChange}
+      dayNumber={2}
+    />
   );
 }
 

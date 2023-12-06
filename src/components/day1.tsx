@@ -1,16 +1,10 @@
 import React, { useState } from "react";
-import {
-  TextField,
-  Button,
-  Checkbox,
-  FormControlLabel,
-  Box,
-} from "@mui/material";
+import InputComp from "./inputComp";
 
 function DayOne() {
+  const [part2, setPart2] = useState(false);
   const [inputString, setInputString] = useState("");
   const [output, setOutput] = useState(0);
-  const [ignoreWords, setIgnoreWords] = useState(true);
 
   const numbers = [
     "zero",
@@ -31,7 +25,7 @@ function DayOne() {
     setInputString(e.target.value);
   };
 
-  const convertInput = () => {
+  const doTheThing = () => {
     const inputArray = inputString.split(/\r?\n/);
     let output = 0;
     inputArray.forEach((el) => {
@@ -49,7 +43,7 @@ function DayOne() {
       let lowestWordFound = "";
       let highestWordFoundIndex = -100;
       let highestWordFound = "";
-      if (!ignoreWords) {
+      if (!part2) {
         numbers.forEach((number) => {
           const index = el.indexOf(number);
           const lastIndex = el.lastIndexOf(number);
@@ -66,59 +60,33 @@ function DayOne() {
         });
       }
       if (
-        ignoreWords ||
+        part2 ||
         (firstDigitIndex !== -1 && firstDigitIndex < lowestWordFoundIndex)
       ) {
-        firstNumber = ignoreWords && firstDigitIndex === -1 ? "0" : firstDigit;
+        firstNumber = part2 && firstDigitIndex === -1 ? "0" : firstDigit;
       } else {
         firstNumber = numbers.indexOf(lowestWordFound).toString();
       }
-      if (ignoreWords || lastDigitIndex > highestWordFoundIndex) {
-        lastNumber = ignoreWords && lastDigitIndex === -1 ? "0" : lastDigit;
+      if (part2 || lastDigitIndex > highestWordFoundIndex) {
+        lastNumber = part2 && lastDigitIndex === -1 ? "0" : lastDigit;
       } else {
         lastNumber = numbers.indexOf(highestWordFound).toString();
       }
-      console.log(parseInt(firstNumber + lastNumber));
       output = output + parseInt(firstNumber + lastNumber);
     });
     setOutput(output);
   };
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      }}
-    >
-      <h3>Day 1</h3>
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={ignoreWords}
-            onChange={() => setIgnoreWords(!ignoreWords)}
-          />
-        }
-        label="Ignore written out numbers"
-      />
-
-      <TextField
-        multiline
-        rows={4}
-        value={inputString}
-        onChange={(e) => handleChange(e)}
-        sx={{ width: "90vw" }}
-      />
-      <Button
-        onClick={convertInput}
-        variant="contained"
-        sx={{ width: "15%", margin: 1 }}
-      >
-        Do the thing
-      </Button>
-
-      <h4 style={{ marginTop: 5 }}>Sum of all numbers: {output}</h4>
-    </Box>
+    <InputComp
+      part2={part2}
+      setPart2={setPart2}
+      inputString={inputString}
+      output={output}
+      part1Func={doTheThing}
+      part2Func={doTheThing}
+      handleChange={handleChange}
+      dayNumber={1}
+    />
   );
 }
 

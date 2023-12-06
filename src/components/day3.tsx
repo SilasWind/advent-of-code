@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  Button,
-  Box,
-  FormControlLabel,
-  TextField,
-  Checkbox,
-} from "@mui/material";
+import InputComp from "./inputComp";
 
 function DayThree() {
   const [part2, setPart2] = useState(false);
@@ -168,41 +162,16 @@ function DayThree() {
   };
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      }}
-    >
-      <h3>Day 3</h3>
-      <FormControlLabel
-        control={<Checkbox checked={part2} onChange={() => setPart2(!part2)} />}
-        label="Part 2"
-      />
-      <TextField
-        multiline
-        rows={4}
-        value={inputString}
-        onChange={(e) => handleChange(e)}
-        sx={{ width: "90vw" }}
-      />
-      <Button
-        onClick={part2 ? partTwo : partOne}
-        variant="contained"
-        sx={{ width: "15%", margin: 1 }}
-      >
-        Do the thing
-      </Button>
-
-      {part2 ? (
-        <h4>Sum of all powers: {output}, previous: 70879553</h4>
-      ) : (
-        <Box>
-          <h4 style={{ marginTop: 5 }}>Sum of all part numbers: {output}</h4>
-        </Box>
-      )}
-    </Box>
+    <InputComp
+      part2={part2}
+      setPart2={setPart2}
+      inputString={inputString}
+      output={output}
+      part1Func={partOne}
+      part2Func={partTwo}
+      handleChange={handleChange}
+      dayNumber={3}
+    />
   );
 }
 
