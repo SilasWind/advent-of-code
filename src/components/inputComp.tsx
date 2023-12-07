@@ -45,7 +45,7 @@ const InputComp: React.FC<InputProps> = ({
       />
       <TextField
         multiline
-        rows={4}
+        rows={20}
         value={inputString}
         onChange={(e) => handleChange(e)}
         sx={{ width: "90vw" }}

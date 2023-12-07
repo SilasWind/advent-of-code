@@ -18,7 +18,7 @@ function DaySeven() {
         case "T":
           return 10;
         case "J":
-          return 11;
+          return part2 ? 1 : 11;
         case "Q":
           return 12;
         case "K":
@@ -32,17 +32,17 @@ function DaySeven() {
     const convertedHand = hand.split("").map((card) => {
       return convertCardValue(card);
     });
-    type match = {
+    type matchType = {
       firstMatch: number;
       firstAmount: number;
       secondMatch: number;
       secondAmount: number;
     };
-    let match: match = {
+    let match: matchType = {
       firstMatch: 0,
-      firstAmount: 0,
+      firstAmount: 1,
       secondMatch: 0,
-      secondAmount: 0,
+      secondAmount: 1,
     };
     let indicesFound: number[] = [];
     let highestCard = 0;
@@ -54,7 +54,11 @@ function DaySeven() {
       hand.split("").forEach((card2, index2) => {
         const cardValue2 = convertCardValue(card2);
         if (index < index2) {
-          if (cardValue === cardValue2 && !indicesFound.includes(index2)) {
+          if (
+            cardValue === cardValue2 &&
+            !indicesFound.includes(index2) &&
+            cardValue !== 1
+          ) {
             indicesFound.push(index2);
             if (!match.firstMatch) {
               match.firstMatch = cardValue;
@@ -71,7 +75,27 @@ function DaySeven() {
         }
       });
     });
-    // console.log(match);
+    if (part2) {
+      let jackAmount = 0;
+      hand.split("").forEach((card) => {
+        if (card === "J") {
+          jackAmount++;
+        }
+      });
+      if (match.firstAmount >= match.secondAmount) {
+        if (match.firstAmount + jackAmount > 5) {
+          match.firstAmount = 5;
+        } else {
+          match.firstAmount = match.firstAmount + jackAmount;
+        }
+      } else {
+        if (match.secondAmount + jackAmount > 5) {
+          match.secondAmount = 5;
+        } else {
+          match.secondAmount = match.secondAmount + jackAmount;
+        }
+      }
+    }
     if (match.firstAmount === 2 && match.secondAmount === 2) {
       return [[2], convertedHand];
     } else if (match.firstAmount >= 2 || match.secondAmount >= 2) {
@@ -105,7 +129,6 @@ function DaySeven() {
     let currentHighestArray: number[] = [];
     let leaderboard: string[][] = [];
     const hackyLoopLength = handArray.length;
-    console.log(hackyLoopLength);
     for (let i = 0; i < hackyLoopLength; i++) {
       handArray.forEach((hand, index) => {
         const catHand = categorizeHand(hand[0]);
@@ -130,13 +153,11 @@ function DaySeven() {
       currentHighestHand = [-1, 0];
       currentHighestArray = [];
     }
-    console.log(leaderboard);
     let totalWinnings = 0;
     for (let i = 0; i < leaderboard.length; i++) {
       totalWinnings += (leaderboard.length - i) * parseInt(leaderboard[i][1]);
     }
     setOutput(totalWinnings);
-    console.log("previous output: 251321500");
   };
   return (
     <InputComp
