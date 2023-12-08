@@ -1,3 +1,4 @@
+import styled from "@emotion/styled";
 import { Button, ButtonGroup, Typography } from "@mui/material";
 import React from "react";
 
@@ -10,7 +11,7 @@ const MainMenu: React.FC = () => {
         flexDirection: "column",
       }}
     >
-      <Typography variant="h2">Main Menu</Typography>
+      <img src="/mainmenu.png" style={{ height: "10%", width: "40%" }} />
       <ButtonGroup orientation="vertical" variant="text" size="large">
         <Button href="/day1">Day 1</Button>
         <Button href="/day2">Day 2</Button>
