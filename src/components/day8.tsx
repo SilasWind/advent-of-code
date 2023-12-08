@@ -25,7 +25,6 @@ function DayEight() {
           }
         }
       });
-      console.log(searchIndices);
       let counters: number[] = [];
       searchIndices.forEach((searchIndex) => {
         let counter = 1;
