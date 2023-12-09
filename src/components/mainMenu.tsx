@@ -21,6 +21,7 @@ const MainMenu: React.FC = () => {
         <Button href="/day6">Day 6</Button>
         <Button href="/day7">Day 7</Button>
         <Button href="/day8">Day 8</Button>
+        <Button href="/day9">Day 9</Button>
       </ButtonGroup>
     </div>
   );
