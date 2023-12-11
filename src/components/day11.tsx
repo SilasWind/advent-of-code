@@ -52,9 +52,6 @@ function DayEleven() {
     galaxies.forEach((galaxy, galaxyIndex) => {
       galaxies.forEach((otherGalaxy, otherGalaxyIndex) => {
         if (galaxyIndex < otherGalaxyIndex) {
-          // galaxy.forEach((coord, coordIndex) => {
-          //   totalDistances += Math.abs(coord - otherGalaxy[coordIndex]);
-          // });
           emptyRows.forEach((row) => {
             if (
               row > Math.min(galaxy[0], otherGalaxy[0]) &&
