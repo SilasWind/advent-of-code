@@ -32,11 +32,11 @@ function DayEleven() {
       }
     });
     emptyRows.forEach((rowIndex) => {
-      inputArray.splice(rowIndex - 1, 0, Array(inputArray[0].length).fill("."));
+      inputArray.splice(rowIndex, 1, Array(inputArray[0].length).fill("M"));
     });
     emptyCols.forEach((colIndex) => {
       inputArray.forEach((row) => {
-        row.splice(colIndex - 1, 0, ".");
+        row.splice(colIndex, 1, "M");
       });
     });
     let galaxies: number[][] = [];
@@ -47,15 +47,33 @@ function DayEleven() {
         }
       });
     });
-    console.log(galaxies);
     let totalDistances = 0;
+    const multiplier = part2 ? 999999 : 1;
     galaxies.forEach((galaxy, galaxyIndex) => {
       galaxies.forEach((otherGalaxy, otherGalaxyIndex) => {
         if (galaxyIndex < otherGalaxyIndex) {
-          galaxy.forEach((coord, coordIndex) => {
-            totalDistances += Math.abs(otherGalaxy[coordIndex] - coord);
+          // galaxy.forEach((coord, coordIndex) => {
+          //   totalDistances += Math.abs(coord - otherGalaxy[coordIndex]);
+          // });
+          emptyRows.forEach((row) => {
+            if (
+              row > Math.min(galaxy[0], otherGalaxy[0]) &&
+              row < Math.max(galaxy[0], otherGalaxy[0])
+            ) {
+              totalDistances += multiplier;
+            }
           });
-          console.log(totalDistances);
+          emptyCols.forEach((col) => {
+            if (
+              col > Math.min(galaxy[1], otherGalaxy[1]) &&
+              col < Math.max(galaxy[1], otherGalaxy[1])
+            ) {
+              totalDistances += multiplier;
+            }
+          });
+          totalDistances +=
+            Math.abs(galaxy[0] - otherGalaxy[0]) +
+            Math.abs(galaxy[1] - otherGalaxy[1]);
         }
       });
     });
