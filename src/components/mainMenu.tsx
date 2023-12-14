@@ -14,7 +14,9 @@ const MainMenu: React.FC = () => {
       <img src="/mainmenu.png" style={{ height: "10%", width: "40%" }} />
       <ButtonGroup orientation="vertical" variant="text" size="large">
         {Array.from({ length: 14 }, (_, i) => i + 1).map((day) => (
-          <Button href={`/day${day}`}>Day {day}</Button>
+          <Button href={`/day${day}`} key={day}>
+            Day {day}
+          </Button>
         ))}
       </ButtonGroup>
     </div>
