@@ -17,6 +17,7 @@ import DayTen from "./components/day10";
 import DayEleven from "./components/day11";
 import DayTwelve from "./components/day12";
 import DayThirteen from "./components/day13";
+import DayFourteen from "./components/day14";
 
 const darkTheme = createTheme({
   palette: {
@@ -51,6 +52,7 @@ function App() {
           <Route path="/day11" element={<DayEleven />} />
           <Route path="/day12" element={<DayTwelve />} />
           <Route path="/day13" element={<DayThirteen />} />
+          <Route path="/day14" element={<DayFourteen />} />
         </Routes>
       </div>
     </ThemeProvider>
