@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Button, ButtonGroup, Typography } from "@mui/material";
+import { Button, ButtonGroup, Grid } from "@mui/material";
 import React from "react";
 
 const MainMenu: React.FC = () => {
@@ -12,12 +12,14 @@ const MainMenu: React.FC = () => {
       }}
     >
       <img src="/mainmenu.png" style={{ height: "10%", width: "40%" }} />
-      <ButtonGroup orientation="vertical" variant="text" size="large">
-        {Array.from({ length: 16 }, (_, i) => i + 1).map((day) => (
-          <Button href={`/day${day}`} key={day}>
-            Day {day}
-          </Button>
-        ))}
+      <ButtonGroup orientation="vertical" variant="outlined" size="large">
+        <Grid container rowSpacing={1}>
+          {Array.from({ length: 16 }, (_, i) => i + 1).map((day) => (
+            <Grid item gap={2} xs={3} key={day}>
+              <Button href={`/day${day}`}>Day {day}</Button>
+            </Grid>
+          ))}
+        </Grid>
       </ButtonGroup>
     </div>
   );

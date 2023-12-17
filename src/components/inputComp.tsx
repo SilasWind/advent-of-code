@@ -45,15 +45,15 @@ const InputComp: React.FC<InputProps> = ({
       />
       <TextField
         multiline
-        rows={20}
+        rows={10}
         value={inputString}
         onChange={(e) => handleChange(e)}
-        sx={{ width: "90vw" }}
+        sx={{ width: "200%" }}
       />
       <Button
         onClick={part2 ? part2Func : part1Func}
         variant="contained"
-        sx={{ width: "15%", margin: 1 }}
+        sx={{ margin: 1 }}
       >
         Do the thing
       </Button>

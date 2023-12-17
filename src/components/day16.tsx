@@ -5,6 +5,8 @@ function DaySixteen() {
   const [part2, setPart2] = useState(false);
   const [inputString, setInputString] = useState("");
   const [output, setOutput] = useState(0);
+  const [inputArray, setInputArray] = useState<string[]>([]);
+  const [energized, setEnergized] = useState<number[][]>([]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -13,32 +15,34 @@ function DaySixteen() {
   };
 
   const doTheThing = () => {
-    const inputArray = inputString.split(/\r?\n/).filter((line) => line);
+    const newInputArray = inputString.split(/\r?\n/).filter((line) => line);
+    setInputArray([...newInputArray]);
     let beams: number[][] = [[0, 0, 0, 0]];
-    let energized: number[][] = [];
     let counter = 0;
+    let newEnergized: number[][] = [];
+    let lastAddition = 0;
     while (beams.length) {
-      if (counter === 100) {
-        console.error("infinite loop");
+      if (lastAddition + 20 < counter) {
+        console.log("no more additions");
         break;
       }
       beams.forEach((beam, beamIndex) => {
-        console.log(beam);
-        if (
-          !energized.some(
-            (checkBeam) =>
-              checkBeam.toString() === [beam[0], beam[1]].toString()
-          )
-        ) {
-          energized.push([beam[0], beam[1]]);
-        }
         if (
           beam[0] > -1 &&
-          beam[0] < inputArray[0].length &&
+          beam[0] < newInputArray[0].length &&
           beam[1] > -1 &&
-          beam[1] < inputArray.length
+          beam[1] < newInputArray.length
         ) {
-          const char = inputArray[beam[0]][beam[1]];
+          if (
+            !newEnergized.some(
+              (checkBeam) =>
+                checkBeam.toString() === [beam[0], beam[1]].toString()
+            )
+          ) {
+            newEnergized.push([beam[0], beam[1]]);
+            lastAddition = counter;
+          }
+          const char = newInputArray[beam[1]][beam[0]];
           const getDirection = () => {
             if (beam[3] > beam[1]) {
               return "up";
@@ -53,7 +57,6 @@ function DaySixteen() {
             }
           };
           const direction = getDirection();
-          console.log(direction);
           const changes = {
             up: [beam[0], beam[1] - 1, beam[0], beam[1]],
             down: [beam[0], beam[1] + 1, beam[0], beam[1]],
@@ -62,7 +65,6 @@ function DaySixteen() {
           };
           if (char === ".") {
             beams[beamIndex] = [...changes[direction]];
-            console.log("continuing " + direction);
           } else if (char === "/") {
             if (direction === "up") {
               beams[beamIndex] = [...changes.right];
@@ -104,19 +106,54 @@ function DaySixteen() {
       });
       counter++;
     }
-    setOutput(energized.length);
+    setEnergized([...newEnergized]);
+    setOutput(newEnergized.length);
   };
   return (
-    <InputComp
-      part2={part2}
-      setPart2={setPart2}
-      inputString={inputString}
-      output={output}
-      part1Func={doTheThing}
-      part2Func={doTheThing}
-      handleChange={handleChange}
-      dayNumber={16}
-    />
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        flexDirection: "row",
+        justifyContent: "space-around",
+      }}
+    >
+      <InputComp
+        part2={part2}
+        setPart2={setPart2}
+        inputString={inputString}
+        output={output}
+        part1Func={doTheThing}
+        part2Func={doTheThing}
+        handleChange={handleChange}
+        dayNumber={16}
+      />
+      {/* <div style={{ display: "flex", flexDirection: "column" }}>
+        {inputArray.map((line, lineIndex) => (
+          <div
+            style={{ display: "flex", flexDirection: "row" }}
+            key={lineIndex}
+          >
+            {line.split("").map((char, charIndex) => (
+              <div
+                style={{
+                  color: energized.some(
+                    (beam) => beam[0] === charIndex && beam[1] === lineIndex
+                  )
+                    ? "#42A5F5"
+                    : "#fff",
+                  fontSize: "25px",
+                  fontFamily: "monospace",
+                }}
+                key={charIndex}
+              >
+                {char}
+              </div>
+            ))}
+          </div>
+        ))}
+      </div> */}
+    </div>
   );
 }
 
