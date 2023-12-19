@@ -48,7 +48,7 @@ const InputComp: React.FC<InputProps> = ({
         rows={10}
         value={inputString}
         onChange={(e) => handleChange(e)}
-        sx={{ width: "200%" }}
+        sx={{ width: "100%" }}
       />
       <Button
         onClick={part2 ? part2Func : part1Func}
