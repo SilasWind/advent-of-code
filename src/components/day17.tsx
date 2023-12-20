@@ -42,7 +42,8 @@ function DaySeventeen() {
     distances[0][0] = newInputArray[0][0];
 
     while (queue.length) {
-      const [row, col, dirIndex, moveCount] = queue.shift() ?? [0, 0];
+      const [row, col, dirIndex, moveCount] = queue.shift() ?? [0, 0, 0, 0];
+      const forbiddenDirs = [1, 0, 3, 2];
       for (let i = 0; i < directions.length; i++) {
         const dr = directions[i][0];
         const dc = directions[i][1];
@@ -59,7 +60,11 @@ function DaySeventeen() {
           }
           const newDistance =
             distances[row][col] + newInputArray[newRow][newCol];
-          if (newMoveCount <= 3 && newDistance < distances[newRow][newCol]) {
+          if (
+            newMoveCount <= 3 &&
+            i !== forbiddenDirs[dirIndex] &&
+            newDistance < distances[newRow][newCol]
+          ) {
             distances[newRow][newCol] = newDistance;
             queue.push([newRow, newCol, i, newMoveCount]);
             cameFrom[newRow][newCol] = [row, col];
@@ -73,10 +78,9 @@ function DaySeventeen() {
       newPathMatrix[row][col] = true;
       current = cameFrom[row][col];
     }
+    setOutput(distances[rows - 1][cols - 1]);
     setPathMatrix([...newPathMatrix]);
-    console.log(pathMatrix);
     console.log(distances);
-    console.log(distances[rows - 1][cols - 1]);
   };
   return (
     <div>
@@ -102,6 +106,7 @@ function DaySeventeen() {
           >
             {row.map((char, charIndex) => (
               <div
+                key={charIndex}
                 style={{
                   color: pathMatrix[index][charIndex] ? "#42A5F5" : "#fff",
                 }}
