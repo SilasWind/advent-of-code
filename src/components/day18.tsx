@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import InputComp from "./inputComp";
+import _ from "lodash";
 
 function DayEighteen() {
   const [part2, setPart2] = useState(false);
@@ -44,7 +45,7 @@ function DayEighteen() {
             diggyHole.splice(
               0,
               0,
-              Array(diggyHole[lastCoords[0]].length).fill(false)
+              Array(diggyHole[diggyHole.length - 1].length).fill(false)
             );
             diggyHole[0][lastCoords[0]] = true;
           } else {
@@ -62,25 +63,41 @@ function DayEighteen() {
         }
       }
     });
+    let displayHole = _.cloneDeep(diggyHole);
+    displayHole.forEach((line) => {
+      line.fill(false);
+    });
     diggyHole.forEach((line, lineIndex) => {
       let inside = false;
       let lastBool = false;
+      for (let i = 0; i < line.length; i++) {
+        if (!(i in line)) {
+          line[i] = false;
+        }
+      }
       line.forEach((char, charIndex) => {
         if (char) {
           newOutput++;
           if (!lastBool) {
             inside = !inside;
           }
-        } else if (inside) {
-          newOutput++;
-          //   diggyHole[lineIndex][charIndex] = true;
+        } else {
+          if (lineIndex > 0 && lastBool) {
+            inside = displayHole[lineIndex - 1][charIndex];
+          }
+          lastBool = char;
+          if (inside) {
+            newOutput++;
+            displayHole[lineIndex][charIndex] = true;
+          }
         }
-        lastBool = char;
       });
     });
-    setHoleOutput([...diggyHole]);
+
+    setHoleOutput([...displayHole]);
     setOutput(newOutput);
     console.log(diggyHole);
+    console.log("too low: 42288");
   };
   return (
     <div>
