@@ -23,15 +23,23 @@ function DayEighteen() {
     let lastCoords: number[] = [0, 0];
     let newOutput = 0;
     inputArray.forEach((line) => {
-      for (let i = 0; i < parseInt(line[1]); i++) {
-        if (line[0] === "R") {
+      const directions = ["R", "D", "L", "U"];
+      const direction = part2
+        ? directions[parseInt(line[2].slice(7, 8))]
+        : line[0];
+      const repeats = part2
+        ? parseInt(line[2].slice(2, 7), 16)
+        : parseInt(line[1]);
+
+      for (let i = 0; i < repeats; i++) {
+        if (direction === "R") {
           if (lastCoords[0] === diggyHole[lastCoords[1]].length - 1) {
             diggyHole[lastCoords[1]].push("#");
           } else {
             diggyHole[lastCoords[1]][lastCoords[0] + 1] = "#";
           }
           lastCoords = [lastCoords[0] + 1, lastCoords[1]];
-        } else if (line[0] === "L") {
+        } else if (direction === "L") {
           if (lastCoords[0] === 0) {
             diggyHole.forEach((line, lineIndex) => {
               line.splice(0, 0, lineIndex === lastCoords[1] ? "#" : ".");
@@ -40,7 +48,7 @@ function DayEighteen() {
             diggyHole[lastCoords[1]][lastCoords[0] - 1] = "#";
             lastCoords = [lastCoords[0] - 1, lastCoords[1]];
           }
-        } else if (line[0] === "U") {
+        } else if (direction === "U") {
           if (lastCoords[1] === 0) {
             diggyHole.splice(
               0,
@@ -72,7 +80,6 @@ function DayEighteen() {
         }
       }
       line.forEach((char, charIndex) => {
-        // console.log(lastChar);
         if (char === "#") {
           newOutput++;
           if (lastChar === ".") {
@@ -85,7 +92,11 @@ function DayEighteen() {
             lastChar === "#" &&
             line[charIndex - 2] === "#"
           ) {
-            inside = diggyHole[lineIndex - 1][charIndex] !== "." ? true : false;
+            inside =
+              diggyHole[lineIndex - 1][charIndex] === "#" ||
+              diggyHole[lineIndex - 1][charIndex] === "+"
+                ? true
+                : false;
           }
           lastChar = char;
           if (inside) {
@@ -96,10 +107,8 @@ function DayEighteen() {
       });
     });
 
-    setHoleOutput([...diggyHole]);
+    // setHoleOutput([...diggyHole]);
     setOutput(newOutput);
-    console.log(diggyHole);
-    console.log("too high: 46339");
   };
   return (
     <div>
@@ -113,7 +122,7 @@ function DayEighteen() {
         handleChange={handleChange}
         dayNumber={18}
       />
-      <div>
+      {/* <div>
         {holeOutput?.map((row, index) => (
           <div
             key={index}
@@ -128,7 +137,7 @@ function DayEighteen() {
             ))}
           </div>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 }
