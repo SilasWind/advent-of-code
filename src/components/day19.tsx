@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import InputComp from "./inputComp";
-import _ from "lodash";
 
 function DayNineteen() {
   const [part2, setPart2] = useState(false);
@@ -29,10 +28,12 @@ function DayNineteen() {
       const forwardToWF = (instruction: string) => {
         const destination = instruction.slice(instruction.indexOf(":") + 1);
         if (destination === "A") {
+          console.log("accepting");
           newOutput = newOutput + partValues.reduce((a, b) => a + b, 0);
           done = true;
           return "";
         } else if (destination === "R") {
+          console.log("rejecting");
           done = true;
           return "";
         } else {
@@ -50,6 +51,7 @@ function DayNineteen() {
           .split(",");
         for (let i = 0; i < instructions.length; i++) {
           const operator = instructions[i][1];
+          console.log(instructions[i]);
           if (operator === ">" || operator === "<") {
             if (
               operator === ">"
@@ -70,20 +72,27 @@ function DayNineteen() {
             ) {
               const newDest = forwardToWF(instructions[i]);
               if (newDest) {
+                console.log("check passed, moving to " + newDest);
                 currentWF =
                   inputArray[0].find(
-                    (workflow) => workflow.slice(0, newDest.length) === newDest
+                    (workflow) =>
+                      workflow.slice(0, newDest.length) === newDest &&
+                      workflow.indexOf("{") === newDest.length
                   ) ?? "";
               }
               break;
             }
           } else {
             const newDest = forwardToWF(instructions[i]);
+            console.log("check failed, moving to " + newDest);
             if (newDest) {
               currentWF =
                 inputArray[0].find(
-                  (workflow) => workflow.slice(0, newDest.length) === newDest
+                  (workflow) =>
+                    workflow.slice(0, newDest.length) === newDest &&
+                    workflow.indexOf("{") === newDest.length
                 ) ?? "";
+              console.log(currentWF);
             }
             break;
           }
