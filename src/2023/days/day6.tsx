@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import InputComp from "./inputComp";
+import InputComp from "../../inputComp";
 
 function DaySix() {
   const [part2, setPart2] = useState(false);

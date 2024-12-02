@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import InputComp from "./inputComp";
-import { createNoSubstitutionTemplateLiteral } from "typescript";
+import InputComp from "../../inputComp";
 
 function DayTen() {
   const [part2, setPart2] = useState(false);

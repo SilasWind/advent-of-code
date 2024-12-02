@@ -1,7 +1,7 @@
 import { Button, ButtonGroup, Grid } from "@mui/material";
 import React from "react";
 
-const MainMenu: React.FC = () => {
+const MainMenu = ({ year }: { year: number }) => {
   return (
     <div
       style={{
@@ -19,7 +19,7 @@ const MainMenu: React.FC = () => {
         <Grid container rowSpacing={1}>
           {Array.from({ length: 20 }, (_, i) => i + 1).map((day) => (
             <Grid item gap={2} xs={3} key={day}>
-              <Button href={`/day${day}`}>Day {day}</Button>
+              <Button href={`${year}/day${day}`}>Day {day}</Button>
             </Grid>
           ))}
         </Grid>

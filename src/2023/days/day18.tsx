@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import InputComp from "./inputComp";
+import InputComp from "../../inputComp";
 import _ from "lodash";
 
 function DayEighteen() {
