@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import MainMenu from "../mainMenu";
 import DayOne from "./days/day1";
 import DayTwo from "./days/day2";
+import DayThree from "./days/day3";
 
 export default function Router2024() {
   return (
@@ -10,6 +11,7 @@ export default function Router2024() {
       <Route path="/" element={<MainMenu year={2024} />} />
       <Route path="2024/day1" element={<DayOne />} />
       <Route path="2024/day2" element={<DayTwo />} />
+      <Route path="2024/day3" element={<DayThree />} />
     </Routes>
   );
 }
