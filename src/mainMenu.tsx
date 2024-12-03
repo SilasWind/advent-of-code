@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Grid } from "@mui/material";
+import { Button, ButtonGroup, Grid, Grid2 } from "@mui/material";
 import React from "react";
 
 const MainMenu = ({ year }: { year: number }) => {
@@ -15,7 +15,12 @@ const MainMenu = ({ year }: { year: number }) => {
         style={{ height: "10%", width: "40%" }}
         alt="emini"
       />
-      <ButtonGroup orientation="vertical" variant="outlined" size="large">
+      <ButtonGroup
+        orientation="vertical"
+        variant="outlined"
+        size="large"
+        sx={{ padding: 5 }}
+      >
         <Grid container rowSpacing={1}>
           {Array.from({ length: 20 }, (_, i) => i + 1).map((day) => (
             <Grid item gap={2} xs={3} key={day}>
