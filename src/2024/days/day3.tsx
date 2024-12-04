@@ -28,7 +28,24 @@ export default function DayThree() {
     setOutput(result);
   };
 
-  const doTheThingPart2 = () => {};
+  const doTheThingPart2 = () => {
+    const regex = /mul\(\d+,\d+\)|do\(\)|don't\(\)/g;
+    const matches = inputString.match(regex);
+    let result = 0;
+    let enabled = true;
+    matches?.forEach((match) => {
+      if (match === "do()") {
+        enabled = true;
+      } else if (match === "don't()") {
+        enabled = false;
+      } else {
+        if (enabled) {
+          mul(match, result);
+        }
+      }
+    });
+    setOutput(result);
+  };
   return (
     <InputComp
       part2={part2}
@@ -41,4 +58,13 @@ export default function DayThree() {
       dayNumber={3}
     />
   );
+}
+
+function mul(match: string, result: number) {
+  const [a, b] = match
+    .replace("mul(", "")
+    .replace(")", "")
+    .split(",")
+    .map((x) => parseInt(x));
+  return result + a * b;
 }
